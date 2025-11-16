@@ -51,7 +51,7 @@ router.get("/:shortenUrl", async (req, res, next) => {
   try {
     const url = await urlModule.findOne({ shortUrl: req.params.shortenUrl });
     if (!url) return next(new AppError("Url not found!", 404));
-    url.clicks++;
+    url.linkGeneration++;
     await url.save();
     res.redirect(url.fullUrl);
   } catch (err) {

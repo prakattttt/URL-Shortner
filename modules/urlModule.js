@@ -11,7 +11,7 @@ const urlSchema = new Schema({
         type: String,
         default: () => crypto.randomBytes(5).toString("base64url")
     },
-    clicks: {
+    linkGeneration: {
         type: Number,
         required: true,
         default: 0

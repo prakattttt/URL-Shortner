@@ -15,7 +15,6 @@
         >
       </nav>
     </header>
-
     <main>
       <div class="container">
         <div class="card">
@@ -23,7 +22,6 @@
           <p class="subtitle">
             Paste a long URL and get a short link instantly.
           </p>
-
           <form action="/url/shortenUrl" method="post" class="url-form">
             <div class="input-group">
               <input
@@ -37,11 +35,11 @@
             </div>
           </form>
 
-          <div class="result hidden" id="result">
+          <div class="result" id="result">
             <p>Your shortened URL:</p>
             <div class="short-url">
-              <input type="text" readonly value="random" />
-              <button class="copy-btn">Copy</button>
+              <input id="short" type="text" readonly value=" <%= shortUrl || "" %>" />
+              <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
           </div>
         </div>
@@ -68,7 +66,7 @@
         </div>
       </div>
     </main>
-
-    <script src="/js/script.js"></script>
+    <script src="/js/script.js">
+    </script>
   </body>
 </html>

@@ -6,8 +6,7 @@ const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    const urls = await urlModule.find();
-    res.render("index", { urls });
+    res.render("index", { shortUrl: null });
   } catch (err) {
     next(new AppError("Unable to fetch url!", 400));
   }

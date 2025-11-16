@@ -12,14 +12,38 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+
 router.post("/shortenUrl", async (req, res, next) => {
   try {
     const { fullUrl } = req.body;
-    if (!fullUrl) return next(new AppError("Please enter a url!", 400));
-    const url = await urlModule.create({ fullUrl });
-    res.render("index", { shortUrl: url.shortUrl });
+    if (!fullUrl) return next(new AppError("URL required", 400));
+    const existing = await urlModule.findOne({ fullUrl: fullUrl });
+    let shortCode;
+
+    if (existing) {
+      shortCode = existing.shortUrl;
+    } else {
+      const newDoc = await urlModule.create({ fullUrl: fullUrl });
+      shortCode = newDoc.shortUrl;
+    }
+    res.redirect(`/url/result/${shortCode}`);
+
   } catch (err) {
-    next(new AppError("Unable to fulfill the request!", 400));
+    next(new AppError("Unable to shorten URL", 500));
+  }
+});
+
+router.get("/result/:code", async (req, res, next) => {
+  try {
+    const { code } = req.params;
+    const doc = await urlModule.findOne({ shortUrl: code });
+    if (!doc) return next(new AppError("Not found", 404));
+    doc.clicks++;
+    await doc.save();
+    const shortUrl = `${req.protocol}://${req.get("host")}/url/${code}`;
+    res.render("index", { shortUrl });
+  } catch (err) {
+    next(new AppError("Server error", 500));
   }
 });
 

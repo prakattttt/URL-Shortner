@@ -9,7 +9,7 @@ const urlSchema = new Schema({
     },
     shortUrl: {
         type: String,
-        default: () => crypto.randomBytes(8).toString("base64url")
+        default: () => crypto.randomBytes(5).toString("base64url")
     },
     clicks: {
         type: Number,

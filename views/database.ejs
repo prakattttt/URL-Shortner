@@ -1,0 +1,49 @@
+<%- include("partials/head") %>
+    <div class="database-section" id="database">
+      <div class="card">
+        <h2>URL Database</h2>
+        <div class="table-container">
+          <table class="url-table">
+            <thead>
+              <tr>
+                <th>S.N</th>
+                <th>Original Link</th>
+                <th>Shortened Link</th>
+                <th>Clicks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>
+                  <a
+                    href="https://verylongexample.com/path/to/some/page"
+                    target="_blank"
+                    class="link"
+                    >verylongexample.com/path/to/...</a
+                  >
+                </td>
+                <td><a href="#" class="short-link">short.url/abc123</a></td>
+                <td>42</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>
+                  <a
+                    href="https://anotherlongurl.com"
+                    target="_blank"
+                    class="link"
+                    >anotherlongurl.com</a
+                  >
+                </td>
+                <td><a href="#" class="short-link">short.url/xyz789</a></td>
+                <td>19</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="no-data hidden" id="noData">No URLs shortened yet.</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,9 +1,23 @@
 import { Schema, model } from "mongoose";
+import crypto from "crypto";
+import { type } from "os";
 
 const urlSchema = new Schema({
-
+    fullUrl: {
+        type: String,
+        required: true
+    },
+    shortUrl: {
+        type: String,
+        default: () => crypto.randomBytes(8).toString("base64url")
+    },
+    clicks: {
+        type: Number,
+        required: true,
+        default: 0
+    }
 });
 
-const Url = model("URL", urlSchema);
+const urlModel = model("URL", urlSchema);
 
-export default Url;
+export default urlModel;

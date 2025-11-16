@@ -12,6 +12,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/database", async(req, res, next) => {
+    
+})
 
 router.post("/shortenUrl", async (req, res, next) => {
   try {

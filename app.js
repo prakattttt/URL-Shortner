@@ -1,15 +1,18 @@
 import express from "express";
 import mainRoute from "./routes/urlRoute.js";
 import { errorHandler, defaultError } from "./middlewares/errorHandler.js";
-import connectToDb from "./database/db.js";
-import ejs from "ejs";
+import { connectToDb } from "./database/db.js";
 
 const app = express();
 
 await connectToDb();
 
 app.use(express.json());
-app.set("view-engine", "ejs");
+
+app.use(express.static("public"));
+
+app.set("view engine", "ejs");
+app.set("views", "./views");
 
 app.use("/url", mainRoute);
 

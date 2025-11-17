@@ -292,7 +292,162 @@ body {
   margin-top: 1.5rem;
 }
 
+/* public/css/adminLogin.css */
+
+.login-card {
+  max-width: 420px;
+  width: 100%;
+  margin: 8rem auto;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(74, 108, 247, 0.15);
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.login-header h1 {
+  font-size: 2.4rem;
+  color: #4a6cf7;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.login-header p {
+  color: #718096;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 1.8rem;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 1.1rem 1.3rem;
+  font-size: 1.15rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: #f8faff;
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 4px rgba(74, 108, 247, 0.15);
+  background: white;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 1.1rem;
+  background: #4a6cf7;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.login-btn:hover {
+  background: #3a5be0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 108, 247, 0.3);
+}
+
+.message {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .url-table th,
+  .url-table td {
+    font-size: 0.85rem;
+  }
+
+  .link,
+  .short-link {
+    max-width: 150px;
+  }
+
+  .database-section .card {
+    padding: 1.5rem;
+  }
+}
+
 @media (max-width: 640px) {
+  .card {
+    padding: 2rem 1.5rem;
+  }
+
+  .card h1 {
+    font-size: 1.75rem;
+  }
+
+  .url-form .input-group {
+    flex-direction: column;
+  }
+
+  .url-form input,
+  .url-form button {
+    border-radius: 12px !important;
+    border: 2px solid #e2e8f0;
+  }
+
+  .url-form button {
+    margin-top: 0.75rem;
+    padding: 1rem;
+  }
+
+  .url-table td {
+    padding-left: 70%;
+  }
+
+  .short-url {
+    flex-direction: column;
+  }
+
+  .copy-btn {
+    border-radius: 10px !important;
+    padding: 0.75rem;
+  }
+
+  .container {
+    gap: 2rem;
+  }
+
   .admin-login-btn {
     font-size: 0.95rem;
     padding: 0.7rem 1.3rem;
@@ -367,64 +522,6 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  .url-table th,
-  .url-table td {
-    font-size: 0.85rem;
-  }
-
-  .link,
-  .short-link {
-    max-width: 150px;
-  }
-
-  .database-section .card {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .card {
-    padding: 2rem 1.5rem;
-  }
-
-  .card h1 {
-    font-size: 1.75rem;
-  }
-
-  .url-form .input-group {
-    flex-direction: column;
-  }
-
-  .url-form input,
-  .url-form button {
-    border-radius: 12px !important;
-    border: 2px solid #e2e8f0;
-  }
-
-  .url-form button {
-    margin-top: 0.75rem;
-    padding: 1rem;
-  }
-
-  .url-table td {
-    padding-left: 70%;
-  }
-
-  .short-url {
-    flex-direction: column;
-  }
-
-  .copy-btn {
-    border-radius: 10px !important;
-    padding: 0.75rem;
-  }
-
-  .container {
-    gap: 2rem;
-  }
-}
-
 @media (max-width: 480px) {
   .navbar {
     flex-direction: column;
@@ -443,5 +540,13 @@ body {
 
   .container {
     padding: 1.5rem 1rem;
+  }
+
+  .login-card {
+    margin: 4rem auto;
+    padding: 2rem 1.5rem;
+  }
+  .login-header h1 {
+    font-size: 2rem;
   }
 }

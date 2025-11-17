@@ -12,8 +12,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/database", async(req, res, next) => {
-    
+router.get("/admin/database", async(req, res, next) => {
+    try {
+      const urls = await urlModule.find();
+      if(!urls || urls == []) urls = null;
+      res.render("database", { shortUrl: null, urls });
+    } catch (err) {
+        next(new AppError("Unable to fetch database", 400));
+    }
 })
 
 router.post("/shortenUrl", async (req, res, next) => {
@@ -36,15 +42,45 @@ router.post("/shortenUrl", async (req, res, next) => {
   }
 });
 
+router.post("/admin/shortenUrl", async (req, res, next) => {
+  try {
+    const { fullUrl } = req.body;
+    if (!fullUrl) return next(new AppError("URL required", 400));
+    const existing = await urlModule.findOne({ fullUrl: fullUrl });
+    let shortCode;
+
+    if (existing) {
+      shortCode = existing.shortUrl;
+    } else {
+      const newDoc = await urlModule.create({ fullUrl: fullUrl });
+      shortCode = newDoc.shortUrl;
+    }
+    res.redirect(`/url/admin/result/${shortCode}`);
+
+  } catch (err) {
+    next(new AppError("Unable to shorten URL", 500));
+  }
+});
+
 router.get("/result/:code", async (req, res, next) => {
   try {
     const { code } = req.params;
     const doc = await urlModule.findOne({ shortUrl: code });
     if (!doc) return next(new AppError("Not found", 404));
-    doc.clicks++;
-    await doc.save();
     const shortUrl = `${req.protocol}://${req.get("host")}/url/${code}`;
     res.render("index", { shortUrl });
+  } catch (err) {
+    next(new AppError("Server error", 500));
+  }
+});
+
+router.get("/admin/result/:code", async (req, res, next) => {
+  try {
+    const { code } = req.params;
+    const doc = await urlModule.findOne({ shortUrl: code });
+    if (!doc) return next(new AppError("Not found", 404));
+    const shortUrl = `${req.protocol}://${req.get("host")}/url/${code}`;
+    res.render("database", { shortUrl });
   } catch (err) {
     next(new AppError("Server error", 500));
   }
@@ -54,7 +90,7 @@ router.get("/:shortenUrl", async (req, res, next) => {
   try {
     const url = await urlModule.findOne({ shortUrl: req.params.shortenUrl });
     if (!url) return next(new AppError("Url not found!", 404));
-    url.linkGeneration++;
+    url.visit++;
     await url.save();
     res.redirect(url.fullUrl);
   } catch (err) {

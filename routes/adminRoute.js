@@ -4,6 +4,14 @@ import AppError from "../utils/appError.js";
 
 const router = express.Router();
 
+router.get("/loginPage", (re, res, next) => {
+  try {
+    res.render("login");
+  } catch(err) { 
+    next(new AppError(err.message, err.status || 500));
+  }
+})
+
 router.post("/login", (req, res, next) => {
   try {
     const { code } = req.body;

@@ -54,7 +54,14 @@ export const redirectUrl = async (req, res, next) => {
 
 export const getDatabase = async (req, res, next) => {
   try {
-    const urls = await urlModule.find();
+    let urls = await urlModule.find();
+    urls = urls.map(url => {
+      return {
+        ...url.toObject(),
+        fullShortUrl: `${req.protocol}://${req.get("host")}/url/${url.shortUrl}`
+      };
+    });
+
     res.render("database", { urls });
   } catch (err) {
     next(new AppError("Unable to fetch database", 400));

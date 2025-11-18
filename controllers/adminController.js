@@ -36,7 +36,7 @@ export const logoutUser = (req, res, next) => {
       maxAge: 0,
       sameSite: "strict",
     });
-    res.status(200).json({ message: "Logged out successfully!" });
+    res.redirect("/url/");
   } catch (err) {
     next(new AppError(err.message, err.status || 500));
   }

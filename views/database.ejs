@@ -15,38 +15,46 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <a
-                      href="https://verylongexample.com/path/to/some/page"
+                <% urls.forEach((url, i) => { %>
+                 <tr>
+                  <td><%= i + 1 %> </td>
+                  <td><a
+                      href="<%= url.fullUrl %>"
                       target="_blank"
                       class="link"
-                      >verylongexample.com/path/to/...</a
+                      ><%= url.fullUrl %></a
                     >
                   </td>
-                  <td><a href="#" class="short-link">short.url/abc123</a></td>
-                  <td>42</td>
+                  <td><a href="<%= url.fullUrl %>" class="short-link"><%= url.fullShortUrl %></a></td>
+                  <td><%= url.visit %></td>
                 </tr>
-                <tr>
-                  <td>2</td>
-                  <td>
-                    <a
-                      href="https://anotherlongurl.com"
-                      target="_blank"
-                      class="link"
-                      >anotherlongurl.com</a
-                    >
-                  </td>
-                  <td><a href="#" class="short-link">short.url/xyz789</a></td>
-                  <td>19</td>
-                </tr>
+                <% }) %>
               </tbody>
             </table>
           </div>
           <p class="no-data hidden" id="noData">No URLs shortened yet.</p>
         </div>
       </div>
+      <div class="admin-log-card">
+          <a href="/admin/logout" class="admin-log-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            Logout
+          </a>
+        </div>
     </div>
         <script src="/js/script.js">
       </script>

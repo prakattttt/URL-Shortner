@@ -3,7 +3,7 @@ import {
   renderLoginPage,
   loginUser,
   logoutUser,
-} from "../controllers/adminController";
+} from "../controllers/adminController.js";
 
 const router = express.Router();
 
@@ -11,6 +11,6 @@ router.get("/loginPage", renderLoginPage);
 
 router.post("/login", loginUser);
 
-router.delete("/logut", logoutUser);
+router.get("/logout", logoutUser);
 
 export default router;

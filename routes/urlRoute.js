@@ -6,7 +6,7 @@ import {
   generateShortUrl,
   getShortUrl,
   redirectUrl,
-} from "../controllers/userController.js";
+} from "../controllers/urlControlller.js";
 
 const router = express.Router();
 

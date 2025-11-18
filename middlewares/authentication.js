@@ -7,7 +7,7 @@ export const authenticateUser = (req, res, next) => {
     return next(new AppError("User not authenticated! Please login.", 401));
   jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN, (err, payload) => {
     if (err) {
-      return next(new AppError("Incorrect User Token!", 403));
+      return next(new AppError("Session Expired! Please login again!", 403));
     }
     next();
   });

@@ -23,7 +23,7 @@ export const loginUser = (req, res, next) => {
       httpOnly: true,
       sameSite: "strict",
     });
-    res.render("database");
+    res.redirect("/url/admin/database");
   } catch (err) {
     next(new AppError(err.message, err.status || 500));
   }

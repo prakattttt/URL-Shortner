@@ -7,7 +7,7 @@ export const renderLandingPage = async (req, res, next) => {
   } catch (err) {
     next(new AppError("Unable to fetch url!", 400));
   }
-}
+};
 
 export const generateShortUrl = async (req, res, next) => {
   try {
@@ -23,11 +23,10 @@ export const generateShortUrl = async (req, res, next) => {
       shortCode = newDoc.shortUrl;
     }
     res.redirect(`/url/result/${shortCode}`);
-
   } catch (err) {
     next(new AppError("Unable to shorten URL", 500));
   }
-}
+};
 
 export const getShortUrl = async (req, res, next) => {
   try {
@@ -39,7 +38,7 @@ export const getShortUrl = async (req, res, next) => {
   } catch (err) {
     next(new AppError("Server error", 500));
   }
-}
+};
 
 export const redirectUrl = async (req, res, next) => {
   try {
@@ -51,16 +50,13 @@ export const redirectUrl = async (req, res, next) => {
   } catch (err) {
     next(new AppError("Unable to fulfill the request!", 400));
   }
-}
+};
 
-export const getDatabase = async(req, res, next) => {
-    try {
-      let urls = await urlModule.find();
-      if(!urls || urls == []) urls = null;
-      setTimeout(() => {
-        res.render("database", { shortUrl: null, urls });
-      }, 20000);
-    } catch (err) {
-        next(new AppError("Unable to fetch database", 400));
-    }
-}
+export const getDatabase = async (req, res, next) => {
+  try {
+    const urls = await urlModule.find();
+    res.render("database", { urls });
+  } catch (err) {
+    next(new AppError("Unable to fetch database", 400));
+  }
+};

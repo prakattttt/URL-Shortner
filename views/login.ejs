@@ -7,11 +7,12 @@
         <p>Enter the secret admin code to continue</p>
       </div>
 
-      <form id="adminLoginForm">
+      <form action="/admin/login" id="adminLoginForm" method="post">
         <div class="input-wrapper">
           <input
             type="password"
             id="adminCode"
+            name="code"
             placeholder="Enter secret code"
             autocomplete="off"
             required
@@ -23,11 +24,11 @@
         </button>
       </form>
 
-      <div id="successMessage" class="message success" style="display: none;">
+      <div id="successMessage" class="message success hidden">
         Access granted! Redirecting...
       </div>
 
-      <div id="errorMessage" class="message error" style="display: none;">
+      <div id="errorMessage" class="message error hidden">
         Incorrect code. Try again.
       </div>
     </div>

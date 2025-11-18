@@ -26,7 +26,7 @@ router.post("/login", (req, res, next) => {
       httpOnly: true,
       sameSite: "strict",
     });
-    res.status(200).json({ message: "Logged in successfully!" });
+    res.render("database");
   } catch (err) {
     next(new AppError(err.message, err.status || 500));
   }

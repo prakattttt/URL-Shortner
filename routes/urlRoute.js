@@ -1,6 +1,7 @@
 import express from "express";
 import AppError from "../utils/appError.js";
 import urlModule from "../modules/urlModule.js";
+import { authenticateUser } from "../middlewares/authentication.js";
 
 const router = express.Router();
 
@@ -12,11 +13,13 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/admin/database", async(req, res, next) => {
+router.get("/admin/database", authenticateUser, async(req, res, next) => {
     try {
       const urls = await urlModule.find();
       if(!urls || urls == []) urls = null;
-      res.render("database", { shortUrl: null, urls });
+      setTimeout(() => {
+        res.render("database", { shortUrl: null, urls });
+      }, 20000);
     } catch (err) {
         next(new AppError("Unable to fetch database", 400));
     }

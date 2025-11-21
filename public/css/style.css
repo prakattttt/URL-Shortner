@@ -284,13 +284,6 @@ body {
   text-decoration: underline;
 }
 
-.no-data {
-  text-align: center;
-  color: #718096;
-  font-style: italic;
-  margin-top: 1.5rem;
-}
-
 .login-card {
   max-width: 420px;
   width: 100%;

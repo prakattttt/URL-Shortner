@@ -1,18 +1,17 @@
-import AppError from "../utils/appError.js";
 import urlModule from "../modules/urlModule.js";
 
-export const renderLandingPage = async (req, res, next) => {
+export const renderLandingPage = async (req, res) => {
   try {
     res.render("index", { shortUrl: null });
   } catch (err) {
-    next(new AppError("Unable to fetch url!", 400));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };
 
-export const generateShortUrl = async (req, res, next) => {
+export const generateShortUrl = async (req, res) => {
   try {
     const { fullUrl } = req.body;
-    if (!fullUrl) return next(new AppError("URL required", 400));
+    if (!fullUrl) return res.redirect("/url/", req.flash("errors", "Please enter a URL!"))
     const existing = await urlModule.findOne({ fullUrl: fullUrl });
     let shortCode;
 
@@ -24,46 +23,49 @@ export const generateShortUrl = async (req, res, next) => {
     }
     res.redirect(`/url/result/${shortCode}`);
   } catch (err) {
-    next(new AppError("Unable to shorten URL", 500));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };
 
-export const getShortUrl = async (req, res, next) => {
+export const getShortUrl = async (req, res) => {
   try {
     const { code } = req.params;
     const doc = await urlModule.findOne({ shortUrl: code });
-    if (!doc) return next(new AppError("Not found", 404));
+    if (!doc) return res.redirect("/url/", req.flash("errors", "URL not found!"))
     const shortUrl = `${req.protocol}://${req.get("host")}/url/${code}`;
     res.render("index", { shortUrl });
   } catch (err) {
-    next(new AppError("Server error", 500));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };
 
-export const redirectUrl = async (req, res, next) => {
+export const redirectUrl = async (req, res) => {
   try {
     const url = await urlModule.findOne({ shortUrl: req.params.shortenUrl });
-    if (!url) return next(new AppError("Url not found!", 404));
+    if (!url) return res.redirect("/url/", req.flash("errors", "URL not found!"))
     url.visit++;
     await url.save();
     res.redirect(url.fullUrl);
   } catch (err) {
-    next(new AppError("Unable to fulfill the request!", 400));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };
 
-export const getDatabase = async (req, res, next) => {
+export const getDatabase = async (req, res) => {
   try {
     let urls = await urlModule.find();
-    urls = urls.map(url => {
+    if(!urls) res.redirect("/url/admin/database", req.flash("errors", "No entries in the database!"));
+    urls = urls.map((url) => {
       return {
         ...url.toObject(),
-        fullShortUrl: `${req.protocol}://${req.get("host")}/url/${url.shortUrl}`
+        fullShortUrl: `${req.protocol}://${req.get("host")}/url/${
+          url.shortUrl
+        }`,
       };
     });
-
+    
     res.render("database", { urls });
   } catch (err) {
-    next(new AppError("Unable to fetch database", 400));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };

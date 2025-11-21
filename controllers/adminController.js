@@ -1,21 +1,20 @@
 import jwt from "jsonwebtoken";
-import AppError from "../utils/appError.js";
 
-export const renderLoginPage = (re, res, next) => {
+export const renderLoginPage = (re, res) => {
   try {
     res.render("login");
   } catch (err) {
-    next(new AppError(err.message, err.status || 500));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };
 
-export const loginUser = (req, res, next) => {
+export const loginUser = (req, res) => {
   try {
     const { code } = req.body;
     if (!code)
-      return next(new AppError("Please enter the admin code to cotinue!", 400));
+      return res.redirect("/admin/login", req.flash("errors", "Please enter a code!"));
     if (code !== process.env.ADMIN_CODE)
-      return next(new AppError("Invalid Code!", 401));
+      return res.redirect("/admin/login", req.flash("errors", "Invalid code!"));
     const token = jwt.sign({ code }, process.env.ADMIN_ACCESS_TOKEN, {
       expiresIn: "30m",
     });
@@ -25,11 +24,11 @@ export const loginUser = (req, res, next) => {
     });
     res.redirect("/url/admin/database");
   } catch (err) {
-    next(new AppError(err.message, err.status || 500));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };
 
-export const logoutUser = (req, res, next) => {
+export const logoutUser = (req, res) => {
   try {
     res.cookie("jwt", null, {
       httpOnly: true,
@@ -38,6 +37,6 @@ export const logoutUser = (req, res, next) => {
     });
     res.redirect("/url/");
   } catch (err) {
-    next(new AppError(err.message, err.status || 500));
+    res.render("error", { errors: err.message || "something went wrong!" });
   }
 };

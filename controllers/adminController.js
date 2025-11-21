@@ -1,42 +1,49 @@
 import jwt from "jsonwebtoken";
 
-export const renderLoginPage = (re, res) => {
+export const renderLoginPage = (req, res) => {
   try {
-    res.render("login");
+    const errors = req.flash ? req.flash("errors") : [];
+    res.render("login", { errors });
   } catch (err) {
-    res.render("error", { errors: err.message || "something went wrong!" });
+    res.status(500).render("error", { errors: [err.message || "something went wrong!"] });
   }
 };
 
 export const loginUser = (req, res) => {
   try {
     const { code } = req.body;
-    if (!code)
-      return res.redirect("/admin/login", req.flash("errors", "Please enter a code!"));
-    if (code !== process.env.ADMIN_CODE)
-      return res.redirect("/admin/login", req.flash("errors", "Invalid code!"));
-    const token = jwt.sign({ code }, process.env.ADMIN_ACCESS_TOKEN, {
+    if (!code) {
+      req.flash("errors", "Please enter a code!");
+      return res.redirect("/admin/loginPage");
+    }
+    if (code !== process.env.ADMIN_CODE) {
+      req.flash("errors", "Invalid code!");
+      return res.redirect("/admin/loginPage");
+    }
+    const token = jwt.sign({ role: "admin" }, process.env.ADMIN_ACCESS_TOKEN || process.env.JWT_SECRET, {
       expiresIn: "30m",
     });
     res.cookie("jwt", token, {
       httpOnly: true,
+      maxAge: 30 * 60 * 1000, 
       sameSite: "strict",
     });
-    res.redirect("/url/admin/database");
+    return res.redirect("/url/admin/database"); 
   } catch (err) {
-    res.render("error", { errors: err.message || "something went wrong!" });
+    req.flash("errors", "Login failed. Try again.");
+    return res.status(500).redirect("/admin/loginPage");
   }
 };
 
 export const logoutUser = (req, res) => {
   try {
-    res.cookie("jwt", null, {
+    res.cookie("jwt", "", {
       httpOnly: true,
       maxAge: 0,
       sameSite: "strict",
     });
-    res.redirect("/url/");
+    return res.redirect("/url/");
   } catch (err) {
-    res.render("error", { errors: err.message || "something went wrong!" });
+    return res.status(500).render("error", { errors: [err.message || "something went wrong!"] });
   }
 };

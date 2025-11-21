@@ -1,14 +1,25 @@
 import jwt from "jsonwebtoken";
-import AppError from "../utils/appError.js";
+
 
 export const authenticateUser = (req, res, next) => {
-  const token = req.cookies.jwt;
-  if (!token)
-    return;
-  jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN, (err, payload) => {
-    if (err) {
-      return;
+  try {
+    const token = req.cookies?.jwt;
+    if (!token) {
+      req.flash("errors", "Please login to access admin area.");
+      return res.redirect("/admin/loginPage");
     }
-    next();
-  });
+
+    jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN || process.env.JWT_SECRET, (err, payload) => {
+      if (err) {
+        req.flash("errors", "Session expired or invalid. Please login again.");
+        return res.redirect("/admin/loginPage");
+      }
+
+      req.user = payload;
+      next();
+    });
+  } catch (err) {
+    req.flash("errors", "Authentication failed. Please login.");
+    return res.redirect("/admin/loginPage");
+  }
 };

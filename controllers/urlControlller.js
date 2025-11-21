@@ -11,7 +11,11 @@ export const renderLandingPage = async (req, res) => {
 export const generateShortUrl = async (req, res) => {
   try {
     const { fullUrl } = req.body;
-    if (!fullUrl) return res.redirect("/url/", req.flash("errors", "Please enter a URL!"))
+    if (!fullUrl) {
+      req.flash("errors", "Please enter a URL!");
+      return res.redirect("/url/");
+    }
+
     const existing = await urlModule.findOne({ fullUrl: fullUrl });
     let shortCode;
 
@@ -31,7 +35,11 @@ export const getShortUrl = async (req, res) => {
   try {
     const { code } = req.params;
     const doc = await urlModule.findOne({ shortUrl: code });
-    if (!doc) return res.redirect("/url/", req.flash("errors", "URL not found!"))
+    if (!doc) {
+      req.flash("errors", "URL not found!");
+      return res.redirect("/url/");
+    }
+
     const shortUrl = `${req.protocol}://${req.get("host")}/url/${code}`;
     res.render("index", { shortUrl });
   } catch (err) {
@@ -42,7 +50,10 @@ export const getShortUrl = async (req, res) => {
 export const redirectUrl = async (req, res) => {
   try {
     const url = await urlModule.findOne({ shortUrl: req.params.shortenUrl });
-    if (!url) return res.redirect("/url/", req.flash("errors", "URL not found!"))
+    if (!url) {
+      req.flash("errors", "URL not found!");
+      return res.redirect("/url/");
+    }
     url.visit++;
     await url.save();
     res.redirect(url.fullUrl);
@@ -54,7 +65,11 @@ export const redirectUrl = async (req, res) => {
 export const getDatabase = async (req, res) => {
   try {
     let urls = await urlModule.find();
-    if(!urls) res.redirect("/url/admin/database", req.flash("errors", "No entries in the database!"));
+    if (!urls) {
+      req.flash("errors", "No entries in the database!");
+      res.redirect("/url/admin/database");
+    }
+
     urls = urls.map((url) => {
       return {
         ...url.toObject(),
@@ -63,7 +78,7 @@ export const getDatabase = async (req, res) => {
         }`,
       };
     });
-    
+
     res.render("database", { urls });
   } catch (err) {
     res.render("error", { errors: err.message || "something went wrong!" });

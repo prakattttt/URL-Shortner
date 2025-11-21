@@ -5,6 +5,7 @@ import defaultError from "./middlewares/errorHandler.js";
 import connectToDb from "./database/db.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 
 dotenv.config();
 
@@ -13,6 +14,16 @@ const app = express();
 await connectToDb();
 
 app.use(cookieParser());
+
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+app.use(flash());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

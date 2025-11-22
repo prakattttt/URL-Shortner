@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
+
+    <div id="server-flash"
+      data-errors='<%= JSON.stringify(flashErrors || []) %>'
+      data-success='<%= JSON.stringify(flashSuccess || []) %>'>
+    </div>
+
     <header>
       <nav class="navbar">
         <h2 class="logo">URL-Shortner</h2>
-        <a href="#database" class="nav-link" id="showDatabase"
-          >See URL Database</a
-        >
+        <a href="/admin/loginPage" class="nav-link">See URL Database</a>
       </nav>
     </header>
-
-    

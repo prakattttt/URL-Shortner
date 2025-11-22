@@ -1,3 +1,29 @@
-<%- include("partials/head") %>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Error</title>
+
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+
+  <div class="error-wrapper">
+    <div class="error-card">
+
+      <h1>Oops!</h1>
+      <p>Something went wrong.</p>
+
+      <div class="error-message-box">
+        <%= message || "An unexpected error occurred." %>
+      </div>
+
+      <a href="/" class="error-back-btn">Go Back Home</a>
+
+    </div>
+  </div>
+
+</body>
 </html>

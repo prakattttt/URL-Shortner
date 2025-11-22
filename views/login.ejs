@@ -1,4 +1,11 @@
 <%- include("partials/head") %>
+<% if (typeof errors !== "undefined" && errors.length) { %>
+  <div class="flash-errors">
+    <% errors.forEach(function(e) { %>
+      <p class="error"><%= e %></p>
+    <% }); %>
+  </div>
+<% } %>
 <main>
   <div class="container">
     <div class="login-card">

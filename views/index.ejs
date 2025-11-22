@@ -10,7 +10,7 @@
     <header>
       <nav class="navbar">
         <h2 class="logo">URL-Shortner</h2>
-        <a href="#database" class="nav-link" id="showDatabase"
+        <a href="/admin/loginPage" class="nav-link" id="showDatabase"
           >See URL Database</a
         >
       </nav>
@@ -38,7 +38,8 @@
           <div class="result" id="result">
             <p>Your shortened URL:</p>
             <div class="short-url">
-              <input id="short" type="text" readonly value=" <%= shortUrl || "" %>" />
+              <input id="short" type="text" readonly value=" <%= shortUrl || ""
+              %>" />
               <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
             </div>
           </div>
@@ -66,7 +67,6 @@
         </div>
       </div>
     </main>
-    <script src="/js/script.js">
-    </script>
+    <script src="/js/script.js"></script>
   </body>
 </html>

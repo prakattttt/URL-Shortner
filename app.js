@@ -1,15 +1,13 @@
+import dotenv from "dotenv/config";
 import express from "express";
 import mainRoute from "./routes/urlRoute.js";
 import adminRoute from "./routes/adminRoute.js";
 import { notFoundHandler, globalErrorHandler } from "./middlewares/errorHandler.js";
 import connectToDb from "./database/db.js";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import flash from "connect-flash";
 import path from "path";
-
-dotenv.config();
 
 const app = express();
 
